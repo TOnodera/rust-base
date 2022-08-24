@@ -34,6 +34,29 @@ fn divide(a: i32, b: i32) -> Result<u32, Box<dyn error::Error>> {
     Ok((a / b) as u32)
 }
 
+#[derive(Debug)]
+struct GeneralError;
+
+impl Display for GeneralError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "General Error.")
+    }
+}
+
+impl error::Error for GeneralError {}
+
+impl From<ZeroDivideError> for GeneralError {
+    fn from(_: ZeroDivideError) -> Self {
+        GeneralError
+    }
+}
+
+impl From<NegativeNumberError> for GeneralError {
+    fn from(_: NegativeNumberError) -> Self {
+        GeneralError
+    }
+}
+
 fn main() {
     let a = -1;
     let b = 10;
